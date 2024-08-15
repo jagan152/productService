@@ -1,12 +1,10 @@
 package dev.jagan.productserviceproject.services;
 
+import dev.jagan.productserviceproject.dto.CategoryDTO;
 import dev.jagan.productserviceproject.dto.CreateProductDTO;
 import dev.jagan.productserviceproject.dto.FakeStoreProductDTO;
-import dev.jagan.productserviceproject.models.Category;
 import dev.jagan.productserviceproject.models.Product;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -69,9 +67,12 @@ public class ProductService_FakeStore implements ProductService{
 
     }
 
+    //4. Implementation of fourth API - Delete Product
     @Override
     public Product deleteProduct(Long id) {
 
+        //We could not use restTemplate.DELETE() method of RestTemplate which doesn't return response-body as the delete api of FakeStore returns an object of Product type.
+        //Hence, we are using the restTemplate.EXCHANGE() method
         ResponseEntity<FakeStoreProductDTO> responseEntity = restTemplate.exchange("http://fakestoreapi.com/products/" + id,
                 HttpMethod.DELETE, HttpEntity.EMPTY,FakeStoreProductDTO.class);
 
@@ -80,18 +81,63 @@ public class ProductService_FakeStore implements ProductService{
         return responseBody.ToProduct();
     }
 
+    //5. Implementation of fifth API - Get all category
     @Override
-    public List<Category> getAllCategory() {
-        return List.of();
+    public List<CategoryDTO> getAllCategory() {
+        ResponseEntity<String[]> responseEntity = restTemplate
+                .getForEntity("http://fakestoreapi.com/products/categories",String[].class);
+
+        String[] responseBody = responseEntity.getBody();
+        List<CategoryDTO> CategoryList = new ArrayList<>();
+
+        for(String CategoryName : responseBody){
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setCategoryName(CategoryName);
+            CategoryList.add(categoryDTO);
+        }
+
+        return CategoryList;
     }
 
+
+    //6. Implementation of sixth API - Update a Product
     @Override
-    public Product updateProduct(String title, float price, String category, String description, String imageURL) {
-        return null;
+    public Product updateProduct(Long id, String title, float price, String category, String description, String imageURL) {
+        //Constructing the FakeStoreProductDTO Object
+        FakeStoreProductDTO fakeStoreProductDTO = new FakeStoreProductDTO();
+        fakeStoreProductDTO.setTitle(title);
+        fakeStoreProductDTO.setPrice(price);
+        fakeStoreProductDTO.setCategory(category);
+        fakeStoreProductDTO.setDescription(description);
+        fakeStoreProductDTO.setImageURL(imageURL);
+
+        //Constructing the HttpHeader through which we are sending the details to be updated
+        HttpHeaders Headers = new HttpHeaders();
+        Headers.setContentType(MediaType.APPLICATION_JSON);
+
+        //Constructing the Request HttpEntity
+        HttpEntity<FakeStoreProductDTO> requestEntity = new HttpEntity<>(fakeStoreProductDTO,Headers);
+
+        // Making the request
+        ResponseEntity<FakeStoreProductDTO> responseEntity = restTemplate
+                .exchange("https://fakestoreapi.com/products/"+id,HttpMethod.PUT,requestEntity,FakeStoreProductDTO.class);
+
+
+        return responseEntity.getBody().ToProduct();
     }
 
+    //7. Implementing Seventh API - Get list of Products by Category
     @Override
     public List<Product> getProductsByCategory(String title) {
-        return List.of();
+        ResponseEntity<FakeStoreProductDTO[]> responseEntity = restTemplate
+                .getForEntity("https://fakestoreapi.com/products/category/"+title,FakeStoreProductDTO[].class);
+        FakeStoreProductDTO[] responseBody = responseEntity.getBody();
+
+        List<Product> products = new ArrayList<Product>();
+        for(FakeStoreProductDTO x : responseBody){
+            products.add(x.ToProduct());
+        }
+
+        return products;
     }
 }

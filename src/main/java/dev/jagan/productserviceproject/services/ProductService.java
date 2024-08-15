@@ -1,5 +1,6 @@
 package dev.jagan.productserviceproject.services;
 
+import dev.jagan.productserviceproject.dto.CategoryDTO;
 import dev.jagan.productserviceproject.models.Category;
 import dev.jagan.productserviceproject.models.Product;
 
@@ -19,10 +20,10 @@ public interface ProductService {
     public Product deleteProduct(Long id);
 
     //5. Get all Category
-    public List<Category> getAllCategory();
+    public List<CategoryDTO> getAllCategory();
 
     //6. Update a Product
-    public Product updateProduct(String title, float price, String category, String description, String imageURL);
+    public Product updateProduct(Long id, String title, float price, String category, String description, String imageURL);
 
     //7. Get Products by Category
     public List<Product> getProductsByCategory(String title);
