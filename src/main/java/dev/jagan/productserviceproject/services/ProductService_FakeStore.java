@@ -4,6 +4,8 @@ import dev.jagan.productserviceproject.dto.CreateProductDTO;
 import dev.jagan.productserviceproject.dto.FakeStoreProductDTO;
 import dev.jagan.productserviceproject.models.Category;
 import dev.jagan.productserviceproject.models.Product;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,6 +19,7 @@ public class ProductService_FakeStore implements ProductService{
     private final RestTemplate restTemplate;
 
     public ProductService_FakeStore(RestTemplate restTemplate){
+
         this.restTemplate = restTemplate;
     }
 
@@ -68,7 +71,13 @@ public class ProductService_FakeStore implements ProductService{
 
     @Override
     public Product deleteProduct(Long id) {
-        return null;
+
+        ResponseEntity<FakeStoreProductDTO> responseEntity = restTemplate.exchange("http://fakestoreapi.com/products/" + id,
+                HttpMethod.DELETE, HttpEntity.EMPTY,FakeStoreProductDTO.class);
+
+        FakeStoreProductDTO responseBody = responseEntity.getBody();
+
+        return responseBody.ToProduct();
     }
 
     @Override
