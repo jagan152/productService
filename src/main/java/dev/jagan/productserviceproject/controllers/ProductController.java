@@ -4,6 +4,7 @@ import dev.jagan.productserviceproject.dto.CategoryDTO;
 import dev.jagan.productserviceproject.dto.CreateProductDTO;
 import dev.jagan.productserviceproject.models.Product;
 import dev.jagan.productserviceproject.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 public class ProductController {
     ProductService productService;
 
-    public ProductController(ProductService productService){
+    public ProductController(@Qualifier("DataBase") ProductService productService){
         this.productService = productService;
     }
 
