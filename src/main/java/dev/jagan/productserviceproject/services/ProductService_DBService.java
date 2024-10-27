@@ -5,12 +5,14 @@ import dev.jagan.productserviceproject.models.Category;
 import dev.jagan.productserviceproject.models.Product;
 import dev.jagan.productserviceproject.repositories.CategoryRepo;
 import dev.jagan.productserviceproject.repositories.ProductRepo;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service("DataBase")
+@Primary
 public class ProductService_DBService implements ProductService {
 
     private ProductRepo productRepo;
@@ -42,7 +44,7 @@ public class ProductService_DBService implements ProductService {
         newProduct.setDescription(description);
         newProduct.setImageURL(imageURL);
 
-        Category categoryFromDataBase = categoryRepo.findByTitle(categoryTitle);
+        Category categoryFromDataBase = categoryRepo.findByCategory(categoryTitle);
         if (categoryFromDataBase == null){
             Category newCategory = new Category();
             newCategory.setCategory(categoryTitle);
@@ -86,7 +88,7 @@ public class ProductService_DBService implements ProductService {
         product.setDescription(description);
         product.setImageURL(imageURL);
 
-        Category categoryFromDB = categoryRepo.findByTitle(category);
+        Category categoryFromDB = categoryRepo.findByCategory(category);
         if (categoryFromDB == null){
             Category newCategory = new Category();
             newCategory.setCategory(category);

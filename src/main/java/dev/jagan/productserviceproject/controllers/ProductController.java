@@ -31,7 +31,7 @@ public class ProductController {
 
     //Controller method for API-3 : create Product
     @PostMapping("/products")
-    public Product createProduct(CreateProductDTO createProductDTO){
+    public Product createProduct(@RequestBody CreateProductDTO createProductDTO){
         return productService.createNewProduct(createProductDTO.getTitle(),
                 createProductDTO.getPrice(),
                 createProductDTO.getCategory(),

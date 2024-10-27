@@ -8,11 +8,12 @@ import java.util.List;
 
 public interface CategoryRepo extends JpaRepository<Category, Long> {
 
-    Category findByTitle(String title);
+    Category findByCategory(String title);
 
     Category save(Category category);
 
     List<Category> findAll();
+
 
 
 }
