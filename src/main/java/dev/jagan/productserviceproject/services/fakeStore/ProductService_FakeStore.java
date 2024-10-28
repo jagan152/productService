@@ -1,9 +1,10 @@
-package dev.jagan.productserviceproject.services;
+package dev.jagan.productserviceproject.services.fakeStore;
 
 import dev.jagan.productserviceproject.dto.CategoryDTO;
 import dev.jagan.productserviceproject.dto.CreateProductDTO;
 import dev.jagan.productserviceproject.dto.FakeStoreProductDTO;
 import dev.jagan.productserviceproject.models.Product;
+import dev.jagan.productserviceproject.services.ProductService;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -11,8 +12,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service("FakeStore")
-public class ProductService_FakeStore implements ProductService{
+@Service("FakeStoreProductService")
+public class ProductService_FakeStore implements ProductService {
 
     private final RestTemplate restTemplate;
 
@@ -20,7 +21,6 @@ public class ProductService_FakeStore implements ProductService{
 
         this.restTemplate = restTemplate;
     }
-
 
 
     //1. Implementation of first API - get single product by ID
@@ -82,22 +82,22 @@ public class ProductService_FakeStore implements ProductService{
     }
 
     //5. Implementation of fifth API - Get all category
-    @Override
-    public List<CategoryDTO> getAllCategory() {
-        ResponseEntity<String[]> responseEntity = restTemplate
-                .getForEntity("http://fakestoreapi.com/products/categories",String[].class);
-
-        String[] responseBody = responseEntity.getBody();
-        List<CategoryDTO> CategoryList = new ArrayList<>();
-
-        for(String CategoryName : responseBody){
-            CategoryDTO categoryDTO = new CategoryDTO();
-            categoryDTO.setCategoryName(CategoryName);
-            CategoryList.add(categoryDTO);
-        }
-
-        return CategoryList;
-    }
+//    @Override
+//    public List<CategoryDTO> getAllCategory() {
+//        ResponseEntity<String[]> responseEntity = restTemplate
+//                .getForEntity("http://fakestoreapi.com/products/categories",String[].class);
+//
+//        String[] responseBody = responseEntity.getBody();
+//        List<CategoryDTO> CategoryList = new ArrayList<>();
+//
+//        for(String CategoryName : responseBody){
+//            CategoryDTO categoryDTO = new CategoryDTO();
+//            categoryDTO.setCategoryName(CategoryName);
+//            CategoryList.add(categoryDTO);
+//        }
+//
+//        return CategoryList;
+//    }
 
 
     //6. Implementation of sixth API - Update a Product

@@ -1,18 +1,18 @@
-package dev.jagan.productserviceproject.services;
+package dev.jagan.productserviceproject.services.dbService;
 
 import dev.jagan.productserviceproject.dto.CategoryDTO;
 import dev.jagan.productserviceproject.models.Category;
 import dev.jagan.productserviceproject.models.Product;
 import dev.jagan.productserviceproject.repositories.CategoryRepo;
 import dev.jagan.productserviceproject.repositories.ProductRepo;
+import dev.jagan.productserviceproject.services.ProductService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service("DataBase")
-@Primary
+@Service("DataBaseProductService")
 public class ProductService_DBService implements ProductService {
 
     private ProductRepo productRepo;
@@ -65,19 +65,19 @@ public class ProductService_DBService implements ProductService {
     }
 
     //5. Implementation of fifth API - Get all category
-    @Override
-    public List<CategoryDTO> getAllCategory() {
-        List<Category> categoryList = categoryRepo.findAll();
-        List<CategoryDTO> finalCategoryList = new ArrayList<>();
-
-        for(Category category : categoryList){
-            CategoryDTO categoryDTO = new CategoryDTO();
-            categoryDTO.setCategoryName(category.getCategory());
-            finalCategoryList.add(categoryDTO);
-        }
-
-        return finalCategoryList;
-    }
+//    @Override
+//    public List<CategoryDTO> getAllCategory() {
+//        List<Category> categoryList = categoryRepo.findAll();
+//        List<CategoryDTO> finalCategoryList = new ArrayList<>();
+//
+//        for(Category category : categoryList){
+//            CategoryDTO categoryDTO = new CategoryDTO();
+//            categoryDTO.setCategoryName(category.getCategory());
+//            finalCategoryList.add(categoryDTO);
+//        }
+//
+//        return finalCategoryList;
+//    }
 
     //6. Implementation of sixth API - Update a Product
     @Override

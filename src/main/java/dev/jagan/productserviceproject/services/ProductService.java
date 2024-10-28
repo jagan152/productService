@@ -20,7 +20,7 @@ public interface ProductService {
     public Product deleteProduct(Long id);
 
     //5. Get all Category
-    public List<CategoryDTO> getAllCategory();
+    //public List<CategoryDTO> getAllCategory();
 
     //6. Update a Product
     public Product updateProduct(Long id, String title, float price, String category, String description, String imageURL);
