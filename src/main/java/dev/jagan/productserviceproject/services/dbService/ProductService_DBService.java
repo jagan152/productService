@@ -37,7 +37,7 @@ public class ProductService_DBService implements ProductService {
 
     //3. Implementation of third API - Create Product
     @Override
-    public Product createNewProduct(String title, float price, String categoryTitle, String description, String imageURL) {
+    public Product createNewProduct(String title, Float price, String categoryTitle, String description, String imageURL) {
         Product newProduct = new Product();
         newProduct.setTitle(title);
         newProduct.setPrice(price);
@@ -81,13 +81,19 @@ public class ProductService_DBService implements ProductService {
 
     //6. Implementation of sixth API - Update a Product
     @Override
-    public Product updateProduct(Long id, String title, float price, String category, String description, String imageURL) {
+    public Product updateProduct(Long id, String title, Float price, String category, String description, String imageURL) {
         Product product = productRepo.findByIdIs(id);
-        product.setTitle(title);
-        product.setPrice(price);
-        product.setDescription(description);
-        product.setImageURL(imageURL);
-
+        if(title != null) {
+            product.setTitle(title);
+        }
+        if(price != null){
+            product.setPrice(price);
+        }
+        if(description != null){
+            product.setDescription(description);}
+        if(imageURL != null){
+            product.setImageURL(imageURL);}
+        
         Category categoryFromDB = categoryRepo.findByCategory(category);
         if (categoryFromDB == null){
             Category newCategory = new Category();

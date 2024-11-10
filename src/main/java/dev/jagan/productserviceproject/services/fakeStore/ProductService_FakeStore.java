@@ -49,7 +49,7 @@ public class ProductService_FakeStore implements ProductService {
 
     //3. Implementation of third API - Create Product
     @Override
-    public Product createNewProduct(String title, float price, String category, String description, String imageURL) {
+    public Product createNewProduct(String title, Float price, String category, String description, String imageURL) {
         //Converting the separate arguments into FakeStoreDto Object
         CreateProductDTO newProductDTO = new CreateProductDTO();
         newProductDTO.setTitle(title);
@@ -102,7 +102,7 @@ public class ProductService_FakeStore implements ProductService {
 
     //6. Implementation of sixth API - Update a Product
     @Override
-    public Product updateProduct(Long id, String title, float price, String category, String description, String imageURL) {
+    public Product updateProduct(Long id, String title, Float price, String category, String description, String imageURL) {
         //Constructing the FakeStoreProductDTO Object
         FakeStoreProductDTO fakeStoreProductDTO = new FakeStoreProductDTO();
         fakeStoreProductDTO.setTitle(title);
