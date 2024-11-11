@@ -1,6 +1,7 @@
 package dev.jagan.productserviceproject.services.dbService;
 
 import dev.jagan.productserviceproject.dto.CategoryDTO;
+import dev.jagan.productserviceproject.exceptions.NotFoundException;
 import dev.jagan.productserviceproject.models.Category;
 import dev.jagan.productserviceproject.repositories.CategoryRepo;
 import dev.jagan.productserviceproject.services.CategoryService;
@@ -19,16 +20,16 @@ public class CategoryService_DBService implements CategoryService {
     }
 
     @Override
-    public List<CategoryDTO> getAllCategory() {
+    public String[] getAllCategory() throws NotFoundException {
         List<Category> categoryList = categoryRepo.findAll();
-        List<CategoryDTO> finalCategoryList = new ArrayList<>();
-
-        for(Category category : categoryList){
-            CategoryDTO categoryDTO = new CategoryDTO();
-            categoryDTO.setCategoryName(category.getCategory());
-            finalCategoryList.add(categoryDTO);
+        if(!categoryList.isEmpty()){
+            String[] categories = new String[categoryList.size()];
+            int i =0;
+            for (Category category : categoryList){
+                categories[i++] = category.getCategory();
+            }
+            return categories;
         }
-
-        return finalCategoryList;
+        throw new NotFoundException("There are no categories");
     }
 }

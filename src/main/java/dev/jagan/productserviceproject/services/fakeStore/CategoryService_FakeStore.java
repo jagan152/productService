@@ -14,24 +14,25 @@ public class CategoryService_FakeStore implements CategoryService {
     private final RestTemplate restTemplate;
 
     public CategoryService_FakeStore(RestTemplate restTemplate){
+
         this.restTemplate = restTemplate;
     }
 
 
     @Override
-    public List<CategoryDTO> getAllCategory() {
-        ResponseEntity<String[]> responseEntity = restTemplate
-                .getForEntity("http://fakestoreapi.com/products/categories",String[].class);
+    public String[] getAllCategory() {
+        String[] responseEntity = restTemplate
+                .getForObject("http://fakestoreapi.com/products/categories",String[].class);
 
-        String[] responseBody = responseEntity.getBody();
-        List<CategoryDTO> CategoryList = new ArrayList<>();
+//        String[] responseBody = responseEntity.getBody();
+//        List<CategoryDTO> CategoryList = new ArrayList<>();
+//
+//        for(String CategoryName : responseBody){
+//            CategoryDTO categoryDTO = new CategoryDTO();
+//            categoryDTO.setCategoryName(CategoryName);
+//            CategoryList.add(categoryDTO);
+//        }
 
-        for(String CategoryName : responseBody){
-            CategoryDTO categoryDTO = new CategoryDTO();
-            categoryDTO.setCategoryName(CategoryName);
-            CategoryList.add(categoryDTO);
-        }
-
-        return CategoryList;
+        return responseEntity;
     }
 }

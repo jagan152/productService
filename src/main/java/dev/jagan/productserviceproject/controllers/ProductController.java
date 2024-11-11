@@ -2,9 +2,12 @@ package dev.jagan.productserviceproject.controllers;
 
 import dev.jagan.productserviceproject.dto.CategoryDTO;
 import dev.jagan.productserviceproject.dto.CreateProductDTO;
+import dev.jagan.productserviceproject.exceptions.NotFoundException;
 import dev.jagan.productserviceproject.models.Product;
 import dev.jagan.productserviceproject.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,14 +23,17 @@ public class ProductController {
 
     //Controller method for API-1 : getProductByID
     @GetMapping("/{id}")
-    public Product getProductByID(@PathVariable("id") Long id ){
-        return productService.getProductById(id);
+    public ResponseEntity<Product>  getProductByID(@PathVariable("id") Long id ) throws NotFoundException {
+        //return productService.getProductById(id);
+        return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
+
     }
 
     //Controller method for API-2 : getAllProducts
     @GetMapping()
-    public List<Product> getAllProducts(){
-        return productService.getAllProducts();
+    public ResponseEntity<List<Product>> getAllProducts() throws NotFoundException{
+        //return productService.getAllProducts();
+        return new ResponseEntity<>(productService.getAllProducts(),HttpStatus.OK);
     }
 
     //Controller method for API-3 : create Product
@@ -42,8 +48,9 @@ public class ProductController {
 
     //Controller method for API-4 : deleteProduct
     @DeleteMapping("/{id}")
-    public Product deleteProduct(@PathVariable("id") Long id){
-        return productService.deleteProduct(id);
+    public ResponseEntity<Product> deleteProduct(@PathVariable("id") Long id) throws NotFoundException{
+        //return productService.deleteProduct(id);
+        return new ResponseEntity<Product>(productService.deleteProduct(id),HttpStatus.NO_CONTENT);
     }
 
 //    //Controller method for API-5 : GetAllCategory
@@ -54,18 +61,21 @@ public class ProductController {
 
     //Controller method for API-6 : Update product
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable("id") Long id,CreateProductDTO productRequestDTO){
-        return productService.updateProduct(id,
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id,CreateProductDTO productRequestDTO) throws NotFoundException{
+        return  new ResponseEntity<>(
+                productService.updateProduct(id,
                 productRequestDTO.getTitle(),
                 productRequestDTO.getPrice(),
                 productRequestDTO.getCategory(),
                 productRequestDTO.getDescription(),
-                productRequestDTO.getImageURL());
+                productRequestDTO.getImageURL()),HttpStatus.OK
+        );
     }
 
     //Controller method for API-7 : GetProductsByCategory
     @GetMapping("/products/category/{title}")
-    public List<Product> getProductsByCategory(@PathVariable("title") String Category){
-        return productService.getProductsByCategory(Category);
+    public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable("title") String Category) throws NotFoundException{
+        //return productService.getProductsByCategory(Category);
+        return new ResponseEntity<>(productService.getProductsByCategory(Category),HttpStatus.OK);
     }
 }

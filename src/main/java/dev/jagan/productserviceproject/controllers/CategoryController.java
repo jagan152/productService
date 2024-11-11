@@ -1,6 +1,7 @@
 package dev.jagan.productserviceproject.controllers;
 
 import dev.jagan.productserviceproject.dto.CategoryDTO;
+import dev.jagan.productserviceproject.exceptions.NotFoundException;
 import dev.jagan.productserviceproject.services.CategoryService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ public class CategoryController {
 
     //Controller method for API-5 : GetAllCategory
     @GetMapping()
-    public List<CategoryDTO> getAllCategory(){
+    public String[] getAllCategory() throws NotFoundException {
         return categoryService.getAllCategory();
     }
 }
