@@ -1,6 +1,8 @@
 package dev.jagan.productserviceproject.repositories;
 
 import dev.jagan.productserviceproject.models.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -17,4 +19,6 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
     void deleteById(Long id);
 
     List<Product> findByCategory_category(String title);
+
+    Page<Product> findByTitleContaining(String title, Pageable pageable);
 }
